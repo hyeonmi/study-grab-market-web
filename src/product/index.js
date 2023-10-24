@@ -7,7 +7,7 @@ function ProductPage() {
     const [product, setProduct] = useState(null)
 
     useEffect(() => {
-        axios.get('https://1204fb75-e2e0-46ba-b255-23facbafaec8.mock.pstmn.io/product/'+id)
+        axios.get(`http://localhost:8080/product/${id}`)
             .then(function(result){
                 setProduct(result.data)
             })
