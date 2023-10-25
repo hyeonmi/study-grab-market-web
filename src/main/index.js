@@ -5,52 +5,68 @@ import { Link } from "react-router-dom"
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import {API_URL} from "../config/constants";
+import {Carousel} from "antd";
 
 dayjs.extend(relativeTime)
 function MainPage(){
     const [products, setProducts] = useState([])
+    const [banners, setBanners] = useState([])
 
     useEffect(function(){
         axios.get(`${API_URL}/products`)
-            .then(function(result){
+            .then((result) => {
                 const { products } = result.data
                 setProducts(products)
             })
-            .catch(function(error){
+            .catch((error)=> {
                 console.error(error)
             })
 
+        axios.get(`${API_URL}/banners`)
+            .then((result) => {
+                const { banners } = result.data
+                setBanners(banners)
+            })
+            .catch((error) => {
+                console.error(error)
+            })
     }, [])
 
     return <>
-    <div id="banner">
-        <img src="/images/banners/banner1.png" alt="배너" />
-    </div>
-    <h1>판매되는 상품들</h1>
-    <div id="product-list">
-        {
-            products.map((product, index) => (
-                <div className="product-card" key={index}>
-                    <Link style={{ color: "inherit" }} className="product-link" to={`/product/${product.id}`}>
-                        <div>
-                            <img className="product-img" src={`${API_URL}/${product.imageUrl}`} alt={product.name}/>
-                        </div>
-                        <div className="product-contents">
-                            <span className="product-name">{product.name}</span>
-                            <span className="product-price">{product.price}</span>
-                        </div>
-                        <div className="product-footer">
-                            <div className="product-seller">
-                                <img className="product-avatar" src="/images/icons/avatar.png" alt="판매자" />
-                                <span>{product.seller}</span>
+        <Carousel autoplay={true} autoplaySpeed={3000}>
+        { banners.map((banner, index) => (
+            <Link to={banner.href} key={`banner-${index}`}>
+                <div id="banner">
+                    <img src={`${API_URL}/${banner.imageUrl}`} alt="배너" />
+                </div>
+            </Link>
+        ))}
+        </Carousel>
+        <h1>판매되는 상품들</h1>
+        <div id="product-list">
+            {
+                products.map((product, index) => (
+                    <div className="product-card" key={`product=${index}`}>
+                        <Link style={{ color: "inherit" }} className="product-link" to={`/product/${product.id}`}>
+                            <div>
+                                <img className="product-img" src={`${API_URL}/${product.imageUrl}`} alt={product.name}/>
                             </div>
-                            <span className="product-date">{dayjs(product.createdAt).fromNow()}</span>
-                        </div>
-                    </Link>
-            </div>))
-        }
+                            <div className="product-contents">
+                                <span className="product-name">{product.name}</span>
+                                <span className="product-price">{product.price}</span>
+                            </div>
+                            <div className="product-footer">
+                                <div className="product-seller">
+                                    <img className="product-avatar" src="/images/icons/avatar.png" alt="판매자" />
+                                    <span>{product.seller}</span>
+                                </div>
+                                <span className="product-date">{dayjs(product.createdAt).fromNow()}</span>
+                            </div>
+                        </Link>
+                </div>))
+            }
 
-            </div>
+                </div>
     </>
 
 }
