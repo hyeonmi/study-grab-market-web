@@ -47,6 +47,9 @@ function MainPage(){
             {
                 products.map((product, index) => (
                     <div className="product-card" key={`product=${index}`}>
+                        {
+                            product.soldout === 1 && <div className="product-blur" />
+                        }
                         <Link style={{ color: "inherit" }} className="product-link" to={`/product/${product.id}`}>
                             <div>
                                 <img className="product-img" src={`${API_URL}/${product.imageUrl}`} alt={product.name}/>
