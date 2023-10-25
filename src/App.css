@@ -15,7 +15,7 @@ body,
   height: 64px;
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #e9ecef;
 }
 
 #header-area {
@@ -32,8 +32,9 @@ body,
 }
 
 #body {
-  height: 100vh;
-  width: 1024px;
+  min-height: 100vh;
+  max-width: 1024px;
+  width: 100%;
   margin: 0 auto;
   padding-bottom: 24px;
 }
@@ -41,4 +42,17 @@ body,
 #footer {
   height: 200px;
   background-color: rgb(230, 230, 230);
+}
+
+
+@media screen and (max-width: 400px) {
+  .product-card {
+    width: 100px !important;
+  }
+  #header, #body{
+    padding: 0 8px;
+  }
+  .ant-carousel {
+    margin: 0 -8px;
+  }
 }

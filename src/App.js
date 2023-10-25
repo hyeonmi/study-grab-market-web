@@ -10,7 +10,7 @@ function App() {
     const history = useHistory();
   return (
         <div>
-        <div id="header">
+            <div id="header">
               <div id="header-area">
                   <Link to="/">
                     <img src="/images/icons/logo.png" alt="그랩마켓 로고" />
@@ -26,7 +26,7 @@ function App() {
                   </Button>
               </div>
         </div>
-        <div id="body">
+            <div id="body">
             <Switch>
                 <Route exact={true} path="/">
                 <MainPageComponent/>
@@ -36,7 +36,7 @@ function App() {
                 <UploadPage/>
                 </Route>
             </Switch>
-        </div>
+             </div>
             <div id="footer"></div>
         </div>
   );

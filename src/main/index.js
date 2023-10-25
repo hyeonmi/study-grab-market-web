@@ -32,7 +32,7 @@ function MainPage(){
             })
     }, [])
 
-    return <>
+    return <div>
         <Carousel autoplay={true} autoplaySpeed={3000}>
         { banners.map((banner, index) => (
             <Link to={banner.href} key={`banner-${index}`}>
@@ -68,9 +68,8 @@ function MainPage(){
                         </Link>
                 </div>))
             }
-
-                </div>
-    </>
+        </div>
+    </div>
 
 }
 
