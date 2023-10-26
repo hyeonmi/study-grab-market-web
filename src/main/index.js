@@ -6,8 +6,10 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import {API_URL} from "../config/constants";
 import {Carousel} from "antd";
+import ProductCard from "../components/productCard";
 
 dayjs.extend(relativeTime)
+dayjs.locale('ko')
 function MainPage(){
     const [products, setProducts] = useState([])
     const [banners, setBanners] = useState([])
@@ -45,28 +47,7 @@ function MainPage(){
         <h1>판매되는 상품들</h1>
         <div id="product-list">
             {
-                products.map((product, index) => (
-                    <div className="product-card" key={`product=${index}`}>
-                        {
-                            product.soldout === 1 && <div className="product-blur" />
-                        }
-                        <Link style={{ color: "inherit" }} className="product-link" to={`/product/${product.id}`}>
-                            <div>
-                                <img className="product-img" src={`${API_URL}/${product.imageUrl}`} alt={product.name}/>
-                            </div>
-                            <div className="product-contents">
-                                <span className="product-name">{product.name}</span>
-                                <span className="product-price">{product.price}</span>
-                            </div>
-                            <div className="product-footer">
-                                <div className="product-seller">
-                                    <img className="product-avatar" src="/images/icons/avatar.png" alt="판매자" />
-                                    <span>{product.seller}</span>
-                                </div>
-                                <span className="product-date">{dayjs(product.createdAt).fromNow()}</span>
-                            </div>
-                        </Link>
-                </div>))
+                products.map((product, index) => (<ProductCard product={product} key={`product-${index}`} />))
             }
         </div>
     </div>

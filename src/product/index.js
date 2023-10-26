@@ -5,16 +5,30 @@ import axios from 'axios'
 import dayjs from "dayjs";
 import {API_URL} from "../config/constants";
 import {Button, message} from "antd";
+import ProductCard from "../components/productCard";
 function ProductPage() {
     const { id } = useParams()
     const [product, setProduct] = useState(null)
+    const [products, setProducts] = useState([])
 
     const getProduct = () => {
         axios.get(`${API_URL}/products/${id}`)
-            .then(function(result){
+            .then((result) => {
                 setProduct(result.data)
             })
-            .catch(function(error){
+            .catch((error) => {
+                console.error(error)
+            })
+    }
+
+    const getRecommendations = () => {
+        axios.get(`${API_URL}/products/${id}/recommendation`)
+            .then((result) => {
+                const { products } = result.data
+                console.log(products)
+                setProducts(products)
+            })
+            .catch((error) => {
                 console.error(error)
             })
     }
@@ -31,13 +45,8 @@ function ProductPage() {
     };
 
     useEffect(() => {
-        axios.get(`${API_URL}/products/${id}`)
-            .then(function(result){
-                setProduct(result.data)
-            })
-            .catch(function(error){
-                console.error(error)
-            })
+       getProduct()
+        getRecommendations()
     }, [])
 
     if(product === null){
@@ -59,6 +68,12 @@ function ProductPage() {
                 <div id="createdAt">{dayjs(product.createdAt).format('YYYY년 MM월 DD일')}</div>
                 <Button id="purchase-button" size="large" type="primary" danger onClick={onClickPurchase} disabled={product.soldout === 1}>구매하기</Button>
                 <pre id="description">{product.description} </pre>
+            </div>
+            <div>
+                <h1>추천상품</h1>
+                <div style={{ display: "flex", flexWrap: "wrap" }}>
+                    {products.map((product, index) => (<ProductCard product={product} key={`product-${index}`} />))}
+                </div>
             </div>
         </div>
     )
